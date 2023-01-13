@@ -1,0 +1,36 @@
+{
+  "name": "clipcloud",
+  "version": "1.0.0",
+  "description": "backend service for clipcloud video sharing",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx tsc && node dist/index.js ",
+    "dev": "nodemon ",
+    "build": "tsc -p"
+  },
+  "keywords": [
+    "video",
+    "sharing",
+    "node",
+    "js",
+    "mongoose",
+    "mongodb"
+  ],
+  "author": "Michael Emmanuel",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^7.8.6",
+    "nodemon": "^2.0.22"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.3.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}
