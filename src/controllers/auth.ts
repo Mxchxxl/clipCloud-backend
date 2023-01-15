@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express"
 import CustomError from './../error';
 import User from "../models/user"
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken"
 import mongoose from "mongoose"
 
 export const signup = async (req: Request, res: Response, next: NextFunction) => {
@@ -35,6 +36,25 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
             error.status = 400
             throw error
         }
+
+        if (!process.env.JWT) {
+            const error: CustomError = new Error('server error')
+            error.status = 500
+
+            throw error
+
+        }
+
+        const token = jwt.sign({
+            id: user._id,
+
+        }, process.env.JWT)
+
+        res.cookie("access_token", token, {
+            httpOnly: true
+        }).status(200).json(user)
+
+
     } catch (err) {
         next(err)
     }
