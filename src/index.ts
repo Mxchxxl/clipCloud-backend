@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import CustomError from "./error";
 import authRoutes from "./routes/auth"
+import cookieParser from "cookie-parser"
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
@@ -20,6 +21,8 @@ dotenv.config()
 
 const app = express()
 
+
+app.use(cookieParser())
 app.use(express.json());
 
 const connect = () => {
