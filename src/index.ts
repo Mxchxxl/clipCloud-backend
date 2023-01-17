@@ -7,13 +7,14 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import userRoutes from "./routes/users"
+import videoRoutes from "./routes/videos"
 
 // import commentRoutes from "./routes/comments"
 
 
 
 
-// import videoRoutes from "./routes/videos"
+
 
 
 
@@ -39,7 +40,7 @@ const connect = () => {
 app.use('/api/auth', authRoutes)
 
 app.use('/api/user', userRoutes)
-// app.use('/api/video', videoRoutes)
+app.use('/api/video', videoRoutes)
 // app.use('/api/comment', commentRoutes)
 
 app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
