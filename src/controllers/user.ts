@@ -59,7 +59,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
 export const subscribe = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
-        await User.findById(req.user, {
+        await User.findByIdAndUpdate(req.user, {
             $push: { subscriptions: req.params.id }
         })
 
@@ -75,7 +75,24 @@ export const subscribe = async (req: Request, res: Response, next: NextFunction)
     }
 }
 
-export const unSubscribe = (req: Request, res: Response, next: NextFunction) => { }
+export const unSubscribe = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        await User.findByIdAndUpdate(req.user, {
+            $pull: { subscriptions: req.params.id }
+        })
+
+        await User.findByIdAndUpdate(req.params.id, {
+            $inc: { subscribers: -1 }
+        })
+
+        res.status(200).json("subscription removed")
+
+
+    } catch (err) {
+        res.status(500).json(err)
+    }
+}
 
 export const like = (req: Request, res: Response, next: NextFunction) => { }
 
