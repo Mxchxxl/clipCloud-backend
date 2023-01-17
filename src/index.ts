@@ -6,12 +6,13 @@ import cookieParser from "cookie-parser"
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
+import userRoutes from "./routes/users"
 
 // import commentRoutes from "./routes/comments"
 
 
 
-// import userRoutes from "./routes/users"
+
 // import videoRoutes from "./routes/videos"
 
 
@@ -36,7 +37,8 @@ const connect = () => {
 }
 
 app.use('/api/auth', authRoutes)
-// app.use('/api/user',userRoutes)
+
+app.use('/api/user', userRoutes)
 // app.use('/api/video', videoRoutes)
 // app.use('/api/comment', commentRoutes)
 

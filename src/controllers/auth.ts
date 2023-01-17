@@ -50,9 +50,14 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
 
         }, process.env.JWT)
 
+        const userObject = user.toObject(); // or user.toJSON();
+        const { password, ...safeForClient } = userObject;
+
+        req.user = String(safeForClient._id)
+
         res.cookie("access_token", token, {
             httpOnly: true
-        }).status(200).json(user)
+        }).status(200).json(safeForClient)
 
 
     } catch (err) {
