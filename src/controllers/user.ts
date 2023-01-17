@@ -3,8 +3,8 @@ import { NextFunction, Request, Response } from "express"
 import User from "../models/user"
 
 export const update = async (req: Request, res: Response, next: NextFunction) => {
-    console.log('updating user details')
-    console.log(req.params.id, req.user)
+    // console.log('updating user details')
+    // console.log(req.params.id, req.user)
 
     if (req.params.id === req.user) {
         try {
@@ -23,12 +23,57 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
     }
 }
 
-export const getUser = (req: Request, res: Response, next: NextFunction) => { }
+export const getUser = async (req: Request, res: Response, next: NextFunction) => {
 
-export const deleteUser = (req: Request, res: Response, next: NextFunction) => { }
+    try {
+        const user = await User.findById(req.params.id)
+
+        //console.log(user)
+        res.status(200).json(user)
+
+    } catch (err) {
+        res.status(500).json(err)
+    }
+
+}
+
+export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+    if (req.params.id === req.user) {
+        try {
+            await User.findByIdAndDelete(req.params.id).then(() => {
+
+                res.status(200).json("user deleted")
+            })
 
 
-export const subscribe = (req: Request, res: Response, next: NextFunction) => { }
+
+        } catch (err) {
+            res.status(500).json(err)
+        }
+    } else {
+        res.status(403).json("cannot perform action")
+    }
+}
+
+
+export const subscribe = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        await User.findById(req.user, {
+            $push: { subscriptions: req.params.id }
+        })
+
+        await User.findByIdAndUpdate(req.params.id, {
+            $inc: { subscribers: 1 }
+        })
+
+        res.status(200).json("subscription added")
+
+
+    } catch (err) {
+        res.status(500).json(err)
+    }
+}
 
 export const unSubscribe = (req: Request, res: Response, next: NextFunction) => { }
 
