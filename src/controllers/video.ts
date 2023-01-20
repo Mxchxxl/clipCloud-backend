@@ -4,16 +4,16 @@ import User from "../models/user"
 import Video from "../models/video"
 
 export const addVideo = async (req: Request, res: Response, next: NextFunction) => {
-    console.log('adding')
+    // console.log('adding')
     const newVideo = new Video({
         userId: req.user,
         ...req.body
     })
     try {
-        console.log(newVideo)
+        // console.log(newVideo)
         const saved = await newVideo.save()
-        console.log('saving')
-        console.log(saved)
+        // console.log('saving')
+        // console.log(saved)
         res.status(200).json(saved)
     } catch (err) {
         return res.status(500).json(err)

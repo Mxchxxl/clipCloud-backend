@@ -7,7 +7,7 @@ export const addComment = async (req: Request, res: Response, next: NextFunction
     try {
         const newComment = new Comment({ ...req.body, userId: req.user })
         const saved = await newComment.save()
-        console.log(saved)
+        // console.log(saved)
         return res.status(200).json(saved)
     } catch (err) {
         return res.status(500).json(err)
@@ -41,7 +41,7 @@ export const deleteComment = async (req: Request, res: Response, next: NextFunct
 export const getVideoComments = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const videoId = req.params.videoId
-        console.log(videoId)
+        // console.log(videoId)
         const comments = await Comment.find({ videoId: videoId })
 
         return res.status(200).json(comments)
