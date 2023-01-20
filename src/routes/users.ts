@@ -1,4 +1,4 @@
-import { deleteUser, disLike, getUser, subscribe, unSubscribe, update } from "../controllers/user";
+import { deleteUser, disLike, getUser, like, subscribe, unSubscribe, update } from "../controllers/user";
 
 import express from "express";
 import { verifyToken } from "../middleware/verify";
@@ -17,7 +17,7 @@ router.put('/sub/:id', verifyToken, subscribe)
 
 router.put('/unsub/:id', verifyToken, unSubscribe)
 
-router.put('/like/:vidId', verifyToken, unSubscribe)
+router.put('/like/:vidId', verifyToken, like)
 
 router.put('/dislike/:vidId', verifyToken, disLike)
 
