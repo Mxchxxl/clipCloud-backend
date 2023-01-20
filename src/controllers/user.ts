@@ -115,14 +115,14 @@ export const like = async (req: Request, res: Response, next: NextFunction) => {
 export const disLike = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const videoId = req.params.vidId
-        const likedvideo = await video.findByIdAndUpdate(videoId, {
+        const dislikedvideo = await video.findByIdAndUpdate(videoId, {
             $addToSet: {
                 dislikes: req.user
             },
             $pull: { likes: req.user }
         }, { new: true })
 
-        return res.status(200).json(likedvideo)
+        return res.status(200).json(dislikedvideo)
 
     } catch (err) {
         return res.status(500).json("server error")
