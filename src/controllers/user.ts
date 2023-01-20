@@ -12,7 +12,7 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
                 $set: req.body
             }, { new: true })
 
-            console.log(updatedUser)
+            // console.log(updatedUser)
             res.status(200).json(updatedUser)
 
         } catch (err) {
