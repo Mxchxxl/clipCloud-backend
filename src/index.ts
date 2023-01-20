@@ -2,22 +2,13 @@ import { NextFunction, Request, Response } from "express";
 
 import CustomError from "./error";
 import authRoutes from "./routes/auth"
+import commentRoutes from "./routes/comments"
 import cookieParser from "cookie-parser"
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import userRoutes from "./routes/users"
 import videoRoutes from "./routes/videos"
-
-// import commentRoutes from "./routes/comments"
-
-
-
-
-
-
-
-
 
 dotenv.config()
 
@@ -41,7 +32,7 @@ app.use('/api/auth', authRoutes)
 
 app.use('/api/user', userRoutes)
 app.use('/api/video', videoRoutes)
-// app.use('/api/comment', commentRoutes)
+app.use('/api/comment', commentRoutes)
 
 app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
   const status = err.status || 500
