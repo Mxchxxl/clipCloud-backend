@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express"
 
 import User from "../models/user"
+import video from "../models/video"
 
 export const update = async (req: Request, res: Response, next: NextFunction) => {
     // console.log('updating user details')
@@ -94,6 +95,36 @@ export const unSubscribe = async (req: Request, res: Response, next: NextFunctio
     }
 }
 
-export const like = (req: Request, res: Response, next: NextFunction) => { }
+export const like = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const videoId = req.params.vidId
+        const likedvideo = await video.findByIdAndUpdate(videoId, {
+            $addToSet: {
+                likes: req.user
+            },
+            $pull: { dislikes: req.user }
+        }, { new: true })
 
-export const disLike = (req: Request, res: Response, next: NextFunction) => { }
+        return res.status(200).json(likedvideo)
+
+    } catch (err) {
+        return res.status(500).json("server error")
+    }
+}
+
+export const disLike = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const videoId = req.params.vidId
+        const likedvideo = await video.findByIdAndUpdate(videoId, {
+            $addToSet: {
+                dislikes: req.user
+            },
+            $pull: { likes: req.user }
+        }, { new: true })
+
+        return res.status(200).json(likedvideo)
+
+    } catch (err) {
+        return res.status(500).json("server error")
+    }
+}
