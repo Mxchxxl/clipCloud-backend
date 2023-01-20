@@ -16,7 +16,7 @@ export const addVideo = async (req: Request, res: Response, next: NextFunction) 
         console.log(saved)
         res.status(200).json(saved)
     } catch (err) {
-        res.status(500).json(err)
+        return res.status(500).json(err)
     }
 }
 
@@ -31,12 +31,12 @@ export const updateVideo = async (req: Request, res: Response, next: NextFunctio
                 $set: req.body
             }, { new: true })
 
-            res.status(200).json(updatedVideo)
+            return res.status(200).json(updatedVideo)
         } else {
-            res.status(403).json("forbidden")
+            return res.status(403).json("forbidden")
         }
     } catch (err) {
-        res.status(500).json(err)
+        return res.status(500).json(err)
     }
 
 
@@ -128,16 +128,53 @@ export const subscribed = async (req: Request, res: Response, next: NextFunction
             return res.status(200).json('user not found')
         }
 
+
         const subChannels = user.subscriptions
-        const list = Promise.all(
+        // console.log(subChannels)
+        const list = await Promise.all(
             subChannels.map((channelId) => {
                 return Video.find({ userId: channelId })
             })
         )
 
-        res.status(200).json(list)
+        res.status(200).json(list.flat().sort((a, b) => {
+            return b.createdAt.getTime() - a.createdAt.getTime()
+        }))
 
     } catch (err) {
-        res.status(500).json(err)
+        return res.status(500).json(err)
+    }
+}
+
+export const getVideoByTag = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const tags = req.query.tags
+
+        const tagsArray = typeof tags == "string" ? tags.split(',') : []
+
+        const videos = await Video.find({ tags: { $in: tagsArray } }).limit(20)
+
+        // console.log(videos)
+        return res.status(200).json(videos)
+
+
+
+    } catch (err) {
+        return res.status(500).json(err)
+    }
+
+}
+
+
+export const search = async (req: Request, res: Response, next: NextFunction) => {
+    const query = req.query.q
+    console.log(query)
+    try {
+
+        const videos = await Video.find({ title: { $regex: query, $options: "i" } }).limit(40)
+
+        return res.status(200).json(videos)
+    } catch (err) {
+        return res.status(500).json(err)
     }
 }

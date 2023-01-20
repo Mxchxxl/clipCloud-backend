@@ -9,9 +9,9 @@ import jwt from "jsonwebtoken"
 const error: CustomError = new Error('')
 
 export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
-    console.log('verifying token')
+    // console.log('verifying token')
     const token = req.cookies.access_token
-    console.log(token)
+    // console.log(token)
     if (!token) {
 
         error.status = 401
