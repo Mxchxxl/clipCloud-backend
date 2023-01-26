@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import CustomError from "./error";
+import CustomError from "./types/error";
 import authRoutes from "./routes/auth"
 import commentRoutes from "./routes/comments"
 import cookieParser from "cookie-parser"
