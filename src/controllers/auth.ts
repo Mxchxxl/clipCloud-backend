@@ -13,7 +13,8 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
         const hash = bcrypt.hashSync(req.body.password, salt)
         const newUser = new User({ ...req.body, password: hash })
         await newUser.save()
-        res.status(200).send("user created")
+
+        res.status(200).send(newUser)
     } catch (err) {
         next(err)
     }
@@ -64,4 +65,10 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
         next(err)
     }
 
+}
+
+
+
+export const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
+    return res.status(200).json('success')
 }
