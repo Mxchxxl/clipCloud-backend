@@ -60,15 +60,15 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
 export const subscribe = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
-        await User.findByIdAndUpdate(req.user, {
+        const updatedUser = await User.findByIdAndUpdate(req.user, {
             $push: { subscriptions: req.params.id }
-        })
+        }, { new: true })
 
         await User.findByIdAndUpdate(req.params.id, {
             $inc: { subscribers: 1 }
         })
 
-        res.status(200).json("subscription added")
+        res.status(200).json(updatedUser)
 
 
     } catch (err) {
@@ -79,15 +79,15 @@ export const subscribe = async (req: Request, res: Response, next: NextFunction)
 export const unSubscribe = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
-        await User.findByIdAndUpdate(req.user, {
+        const updatedUser = await User.findByIdAndUpdate(req.user, {
             $pull: { subscriptions: req.params.id }
-        })
+        }, { new: true })
 
         await User.findByIdAndUpdate(req.params.id, {
             $inc: { subscribers: -1 }
         })
 
-        res.status(200).json("subscription removed")
+        res.status(200).json(updatedUser)
 
 
     } catch (err) {

@@ -150,7 +150,11 @@ export const getVideoByTag = async (req: Request, res: Response, next: NextFunct
     try {
         const tags = req.query.tags
 
-        const tagsArray = typeof tags == "string" ? tags.split(',') : []
+        const tagsArray = typeof tags === "string"
+            ? tags.split(',').map(tag => tag.trim()).filter(tag => tag !== '')
+            : [];
+
+        // console.log(tagsArray)
 
         const videos = await Video.find({ tags: { $in: tagsArray } }).limit(20)
 
