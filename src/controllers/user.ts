@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express"
 
+import CustomRequest from "../types/request"
 import User from "../models/user"
 import video from "../models/video"
 
-export const update = async (req: Request, res: Response, next: NextFunction) => {
+export const update = async (req: CustomRequest, res: Response, next: NextFunction) => {
     // console.log('updating user details')
     // console.log(req.params.id, req.user)
 
@@ -24,7 +25,7 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
     }
 }
 
-export const getUser = async (req: Request, res: Response, next: NextFunction) => {
+export const getUser = async (req: CustomRequest, res: Response, next: NextFunction) => {
 
     try {
         const user = await User.findById(req.params.id)
@@ -38,7 +39,7 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
 
 }
 
-export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteUser = async (req: CustomRequest, res: Response, next: NextFunction) => {
     if (req.params.id === req.user) {
         try {
             await User.findByIdAndDelete(req.params.id).then(() => {
@@ -57,7 +58,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
 }
 
 
-export const subscribe = async (req: Request, res: Response, next: NextFunction) => {
+export const subscribe = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
 
         const updatedUser = await User.findByIdAndUpdate(req.user, {
@@ -76,7 +77,7 @@ export const subscribe = async (req: Request, res: Response, next: NextFunction)
     }
 }
 
-export const unSubscribe = async (req: Request, res: Response, next: NextFunction) => {
+export const unSubscribe = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
 
         const updatedUser = await User.findByIdAndUpdate(req.user, {
@@ -95,7 +96,7 @@ export const unSubscribe = async (req: Request, res: Response, next: NextFunctio
     }
 }
 
-export const like = async (req: Request, res: Response, next: NextFunction) => {
+export const like = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const videoId = req.params.vidId
         const likedvideo = await video.findByIdAndUpdate(videoId, {
@@ -112,7 +113,7 @@ export const like = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-export const disLike = async (req: Request, res: Response, next: NextFunction) => {
+export const disLike = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const videoId = req.params.vidId
         const dislikedvideo = await video.findByIdAndUpdate(videoId, {

@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express"
 
 import CustomError from "../types/error"
 import CustomJwtPayload from "../types/jwt"
+import CustomRequest from "../types/request";
 import type { JwtPayload } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 
@@ -10,7 +11,7 @@ import jwt from "jsonwebtoken";
 
 const error: CustomError = new Error('')
 
-export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
+export const verifyToken = (req: CustomRequest, res: Response, next: NextFunction) => {
     // console.log('verifying token')
     const token = req.cookies.access_token
     // console.log(token)
