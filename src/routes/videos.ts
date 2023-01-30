@@ -1,4 +1,4 @@
-import { addVideo, deleteVideo, getVideo, getVideoByTag, randomVideos, search, subscribed, trending, updateVideo } from "../controllers/video";
+import { addVideo, addView, deleteVideo, getVideo, getVideoByTag, randomVideos, search, subscribed, trending, updateVideo } from "../controllers/video";
 
 import express from "express";
 import { verifyToken } from "../middleware/verify";
@@ -14,5 +14,6 @@ router.get("/random", randomVideos)
 router.get('/subscribed', verifyToken, subscribed)
 router.get("/tag", getVideoByTag)
 router.get('/search', search)
+router.get("/addview/:id", addView)
 
 export default router
