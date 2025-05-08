@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 
-import CustomError from './../error';
+import CustomError from '../types/error';
 import User from "../models/user"
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"

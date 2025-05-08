@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from "express"
 
-import CustomError from "../error"
-import jwt from "jsonwebtoken"
+import CustomError from "../types/error"
+import CustomJwtPayload from "../types/jwt"
+import type { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 // import { User } from "../types/custom"
 
@@ -25,7 +27,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
         return res.json(error).status(500)
     }
 
-    jwt.verify(token, process.env.JWT as string, (err: jwt.VerifyErrors | null, decoded: string | jwt.JwtPayload | undefined) => {
+    jwt.verify(token, process.env.JWT as string, (err: Error | null, decoded: string | CustomJwtPayload | undefined) => {
         if (err) {
             error.status = 403
             error.message = 'invalid token'
