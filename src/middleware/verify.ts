@@ -28,25 +28,14 @@ export const verifyToken = (req: CustomRequest, res: Response, next: NextFunctio
         return res.json(error).status(500)
     }
 
-    jwt.verify(token, process.env.JWT as string, (err: Error | null, decoded: string | CustomJwtPayload | undefined) => {
-        if (err) {
-            error.status = 403
-            error.message = 'invalid token'
-            return res.json(error).status(403)
-        }
-        if (typeof decoded === 'object') {
-            req.user = String(decoded.id)
-            next()
-        }
-        else if (typeof decoded === 'string') {
-            req.user = decoded
-            next()
-        }
-        else {
-            return res.json(error).status(500)
-        }
 
 
-    })
+    try {
+        const decoded = jwt.verify(token, process.env.JWT as string) as CustomJwtPayload;
+        req.user = decoded.id;
+        next();
+    } catch (err) {
+        return res.status(403).json({ message: "Invalid token" });
+    }
 
 }
