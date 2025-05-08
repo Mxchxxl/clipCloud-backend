@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express"
 
 import CustomError from "../types/error"
-import CustomJwtPayload from "../types/jwt"
+import CustomJwtPayload from "../types/jwt";
 import CustomRequest from "../types/request";
 import type { JwtPayload } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
