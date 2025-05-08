@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express"
 
 import Comment from "../models/comments"
+import CustomRequest from "../types/request"
 import Video from "../models/video"
 
-export const addComment = async (req: Request, res: Response, next: NextFunction) => {
+export const addComment = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const newComment = new Comment({ ...req.body, userId: req.user })
         const saved = await newComment.save()
@@ -14,7 +15,7 @@ export const addComment = async (req: Request, res: Response, next: NextFunction
     }
 }
 
-export const deleteComment = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteComment = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const commentId = req.params.id
 
@@ -38,7 +39,7 @@ export const deleteComment = async (req: Request, res: Response, next: NextFunct
     }
 }
 
-export const getVideoComments = async (req: Request, res: Response, next: NextFunction) => {
+export const getVideoComments = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const videoId = req.params.videoId
         // console.log(videoId)

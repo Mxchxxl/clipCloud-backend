@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express"
 
+import CustomRequest from "../types/request"
 import User from "../models/user"
 import Video from "../models/video"
 
-export const addVideo = async (req: Request, res: Response, next: NextFunction) => {
+export const addVideo = async (req: CustomRequest, res: Response, next: NextFunction) => {
     // console.log('adding')
     const newVideo = new Video({
         userId: req.user,
@@ -20,7 +21,7 @@ export const addVideo = async (req: Request, res: Response, next: NextFunction) 
     }
 }
 
-export const updateVideo = async (req: Request, res: Response, next: NextFunction) => {
+export const updateVideo = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const video = await Video.findById(req.params.id)
         if (!video) {
@@ -43,7 +44,7 @@ export const updateVideo = async (req: Request, res: Response, next: NextFunctio
 
 }
 
-export const deleteVideo = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteVideo = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const video = await Video.findById(req.params.id)
         if (!video) {
@@ -63,7 +64,7 @@ export const deleteVideo = async (req: Request, res: Response, next: NextFunctio
     }
 }
 
-export const getVideo = async (req: Request, res: Response, next: NextFunction) => {
+export const getVideo = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const video = await Video.findById(req.params.id)
         if (!video) {
@@ -77,7 +78,7 @@ export const getVideo = async (req: Request, res: Response, next: NextFunction) 
 }
 
 
-export const addView = async (req: Request, res: Response, next: NextFunction) => {
+export const addView = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const video = await Video.findByIdAndUpdate(req.params.id, {
             $inc: { views: 1 }
@@ -93,7 +94,7 @@ export const addView = async (req: Request, res: Response, next: NextFunction) =
 }
 
 
-export const randomVideos = async (req: Request, res: Response, next: NextFunction) => {
+export const randomVideos = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const videos = await Video.aggregate([{ $sample: { size: 40 } }])
         if (!videos) {
@@ -107,7 +108,7 @@ export const randomVideos = async (req: Request, res: Response, next: NextFuncti
 }
 
 
-export const trending = async (req: Request, res: Response, next: NextFunction) => {
+export const trending = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const videos = await Video.find().sort({ views: -1 })
         if (!videos) {
@@ -121,7 +122,7 @@ export const trending = async (req: Request, res: Response, next: NextFunction) 
 }
 
 
-export const subscribed = async (req: Request, res: Response, next: NextFunction) => {
+export const subscribed = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const user = await User.findById(req.user)
         if (!user) {
@@ -146,7 +147,7 @@ export const subscribed = async (req: Request, res: Response, next: NextFunction
     }
 }
 
-export const getVideoByTag = async (req: Request, res: Response, next: NextFunction) => {
+export const getVideoByTag = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const tags = req.query.tags
 
@@ -170,7 +171,7 @@ export const getVideoByTag = async (req: Request, res: Response, next: NextFunct
 }
 
 
-export const search = async (req: Request, res: Response, next: NextFunction) => {
+export const search = async (req: CustomRequest, res: Response, next: NextFunction) => {
     const query = req.query.q
     console.log(query)
     try {

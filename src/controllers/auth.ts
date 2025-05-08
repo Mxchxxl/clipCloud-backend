@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response } from "express"
 
 import CustomError from '../types/error';
+import CustomRequest from "../types/request";
 import User from "../models/user"
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose"
 
-export const signup = async (req: Request, res: Response, next: NextFunction) => {
+export const signup = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
 
         const salt = bcrypt.genSaltSync(10)
@@ -21,7 +22,7 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
 
 }
 
-export const signin = async (req: Request, res: Response, next: NextFunction) => {
+export const signin = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
 
         const user = await User.findOne({ name: req.body.name })
@@ -69,6 +70,6 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
 
 
 
-export const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
+export const verifyUser = async (req: CustomRequest, res: Response, next: NextFunction) => {
     return res.status(200).json('success')
 }
